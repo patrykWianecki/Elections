@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All constituencies</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col offset-xl-4">
+            <h1 class="title">CONSTITUENCIES</h1>
+            <a class="text btn btn-success btn-lg" href="/constituencies/add">ADD NEW CONSTITUENCY</a>
+        </div>
+    </div>
+    <div class="row text">
+        <div class="col offset-xl-4">
+            <ul class="list-inline">
+                <li class="mt-4 constituencyBorder" th:each="c : ${constituencies}">
+                    <div class="media-body">
+                        <h3 class="mt-0" th:text="${c.name}"></h3>
+                        <div class="mt-2 optionButtons">
+                            <a th:href="@{/constituencies/edit/{id}(id=${c.id})}" class="btn btn-success mr-3">EDIT</a>
+                            <a th:href="@{/constituencies/{id}(id=${c.id})}" class="btn btn-info mr-3">DETAILS</a>
+                            <form th:action="@{/constituencies/delete}" method="post" style="display: inline">
+                                <input hidden="hidden" readonly="readonly" type="text" name="id"
+                                       th:value="${c.id}"/>
+                                <button type="submit" class="btn btn-danger">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

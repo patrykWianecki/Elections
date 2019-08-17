@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show user</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="my-5"></div>
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1 class="text-success mb-5">User info</h1>
+            <div th:object="${user}">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p>Login <span th:text="${user.username}"></span></p>
+                        <p>Password <span th:text="${user.password}"></span></p>
+                        <p>Email <span th:text="${user.email}"></span></p>
+                        <p>Enabled <span th:text="${user.enabled}"></span></p>
+                        <p>Role <span th:text="${user.role}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

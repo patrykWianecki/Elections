@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <form th:action="@{/voting/vote}" method="post" th:object="${votingResult}">
+            <div class="row">
+                <div class="form-group">
+                    <div th:each="c : ${candidates}">
+                        <ul class="list">
+                            <li class="mt-3">
+                                <div class="candidate">
+                                    <img class="align-self-start mr-3 rounded-circle"
+                                         th:src="@{/img/{photo}(photo=${c.photo})}">
+                                    <label class="text" th:text="${c.name + ' ' + c.surname}"></label>
+                                    <input type="radio" th:field="*{candidateId}" th:value="${c.id}"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <input th:field="*{token}" hidden="hidden" readonly="readonly"/>
+            </div>
+            <div class="offset-xl-4 my-5">
+                <button class="text btn-success btn-lg" type="submit" href="/voting/vote">Send results</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

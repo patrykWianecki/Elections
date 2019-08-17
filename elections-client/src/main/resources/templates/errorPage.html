@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1 th:text="${exceptionCode}"></h1>
+            <h1 th:text="${description}"></h1>
+            <h1 th:text="${dateTime}"></h1>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

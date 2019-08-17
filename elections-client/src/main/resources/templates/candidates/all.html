@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All candidates</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col offset-xl-4">
+            <h1 class="title">CANDIDATES</h1>
+            <a class="text btn btn-success btn-lg" href="/candidates/add">ADD NEW CANDIDATE</a>
+        </div>
+    </div>
+    <div class="row text">
+        <div class="col offset-xl-4">
+            <ul class="list-inline">
+                <li class="mt-4 candidateBorder" th:each="c : ${candidates}">
+                    <div class="media">
+                        <div class="mt-1">
+                            <h3 class="text"><span th:text="${c.name + ' ' + c.surname}"></span></h3>
+                            <h3 class="text">Age: <span th:text="${c.age}"></span></h3>
+                            <h3 class="text">Constituency: <span th:text="${c.constituencyDto.name}"></span></h3>
+                            <div class="media-body text">
+                                <a th:href="@{/candidates/edit/{id}(id=${c.id})}" class="btn btn-success">EDIT</a>
+                                <a th:href="@{/candidates/{id}(id=${c.id})}" class="btn btn-info">DETAILS</a>
+                                <form th:action="@{/candidates/delete}" method="post" style="display: inline">
+                                    <input hidden="hidden" readonly="readonly" type="text" name="id"
+                                        th:value="${c.id}"/>
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

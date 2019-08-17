@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new voter</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container media-body offset-xl-4">
+    <div class="row">
+        <div class="col">
+            <div class="title">Enter your data</div>
+            <form th:action="@{/voters/add}" method="post" th:object="${voters}">
+                <div class="form-group row col-2">
+                    <label class="h2 text mr-3" for="age">Age</label>
+                    <input id="age" type="number" class="form-control" th:field="*{age}">
+                </div>
+                <p th:if="${errors.containsKey('age')}" class="text-danger" th:text="${errors.get('age')}"></p>
+                <div class="form-group">
+                    <label class="h2 text mr-3" for="gender">Gender</label>
+                    <ul id="gender" class="list-inline">
+                        <li class="list-inline-item" th:each="g : ${genders}">
+                            <input type="radio" th:field="*{gender}" th:value="${g}"/>
+                            <label class="ml-2" th:text="${g}"></label>
+                        </li>
+                    </ul>
+                </div>
+                <p th:if="${errors.containsKey('gender')}" class="text-danger" th:text="${errors.get('gender')}"></p>
+                <div class="form-group">
+                    <label class="h2 text mr-3" for="education">Education</label>
+                    <ul id="education" class="list-inline">
+                        <li class="list-vertical-item" th:each="e : ${educations}">
+                            <input type="radio" th:field="*{education}" th:value="${e}"/>
+                            <label class="ml-2" th:text="${e.getValue()}"></label>
+                        </li>
+                    </ul>
+                </div>
+                <p th:if="${errors.containsKey('education')}" class="text-danger"
+                   th:text="${errors.get('education')}"></p>
+                <div class="form-group">
+                    <div class="row">
+                        <label class="h2 text mr-3" for="constituency">Constituency</label>
+                    </div>
+                    <div class="row">
+                        <select id="constituency" th:field="*{constituencyDto.id}">
+                            <option th:each="c : ${constituencies}" th:value="${c.id}" th:text="${c.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <p th:if="${errors.containsKey('constituencyDto')}" class="text-danger"
+                   th:text="${errors.get('constituencyDto')}"></p>
+                <div class="form-group">
+                    <button class="btn btn-success btn-lg" type="submit">Add</button>
+                    <button class="btn btn-danger btn-lg" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

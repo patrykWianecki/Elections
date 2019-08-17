@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col offset-xl-4">
+            <form th:action="@{/login}" method="post" th:object="${user}">
+                <div class="form-group row col-3">
+                    <label class="headline" for="username">Username</label>
+                    <input id="username" th:field="*{username}" type="text" class="form-control">
+                </div>
+                <div class="form-group row col-3">
+                    <label class="headline" for="password">Password</label>
+                    <input id="password" th:field="*{password}" type="password" class="form-control">
+                </div>
+                <div class="row">
+                    <p class="text-danger" th:text="${error}"></p>
+                </div>
+                <div class="form-group title">
+                    <button class="btn btn-success btn-lg" type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

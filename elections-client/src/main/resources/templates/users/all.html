@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1>USERS</h1>
+            <ul>
+                <li th:each="u : ${users}">
+                    <div class="media-body">
+                        <h3>Login <span th:text="${u.username}"></span></h3>
+                        <h3>Email <span th:text="${u.email}"></span></h3>
+                        <h3>Role <span th:text="${u.role}"></span></h3>
+                        <div class="mt-2 optionButtons">
+                            <a th:href="@{/users/edit/{id}(id=${u.id})}" class="btn btn-success mr-3">EDIT</a>
+                            <a th:href="@{/users/{id}(id=${u.id})}" class="btn btn-info mr-3">DETAILS</a>
+                            <form th:action="@{/users/delete}" method="post" style="display: inline">
+                                <input hidden="hidden" readonly="readonly" type="text" name="id" th:value="${u.id}"/>
+                                <button type="submit" class="btn btn-danger">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row" my-5>
+        <div class="col-xl-8 offset-xl-2">
+            <a class="btn btn-success btn-lg" href="/users/add">ADD NEW USER</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

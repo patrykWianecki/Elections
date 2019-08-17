@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Finish</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="col my-5 offset-xl-3">
+        <h1 class="title">Thank you for your vote!</h1>
+    </div>
+    <div class="row text mb-2">
+        <div class="col offset-xl-4">
+            <h4>Go back to home page: </h4>
+            <button class="btn-lg btn-success" href="/">Home page</button>
+        </div>
+    </div>
+    <div class="row text mb-2">
+        <div class="col offset-xl-4">
+            <h4>Show voting results:</h4>
+            <button class="btn-lg btn-success" href="/voting/result">Results</button>
+        </div>
+    </div>
+    <div class="row text mb-2">
+        <div class="col offset-xl-4">
+            <h4>To second ballot:</h4>
+            <button class="btn-lg btn-success" href="/voting/secondBallot">Second ballot</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

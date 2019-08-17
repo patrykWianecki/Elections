@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show candidate</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1 class="title">Candidate info</h1>
+            <div th:object="${candidate}">
+                <div class="media candidateBorder">
+<!--                    <img class="align-self-start mr-3" th:src="@{/img/{photo}(photo=${candidate.photo})}">-->
+                    <div class="text">
+                        <h3><span th:text="${candidate.name} + ' ' + ${candidate.surname}"></span></h3>
+                        <h3>Age: <span th:text="${candidate.age}"></span></h3>
+                        <h3>Gender: <span th:text="${candidate.gender}"></span></h3>
+                        <h3>Constituency: <span th:text="${candidate.constituencyDto.name}"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

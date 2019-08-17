@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit constituency</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row offset-xl-3">
+        <h1 class="title">Edit constituency data</h1>
+    </div>
+    <div class="row offset-xl-5">
+        <form th:action="@{/constituencies/edit}" method="post" th:object="${constituency}">
+            <div class="text">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" th:field="*{name}">
+            </div>
+            <p th:if="${errors.containsKey('name')}" class="text-danger" th:text="${errors.get('name')}"></p>
+            <input type="text" hidden="hidden" readonly="readonly" th:field="*{id}">
+            <div class="form-group text">
+                <button class="btn btn-success btn-lg" type="submit">Edit</button>
+                <button class="btn btn-danger btn-lg" type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+/*text*/
+.title {
+    font-size: 45px;
+    font-weight: bold;
+    font-family: "Apple Color Emoji", fantasy;
+}
+
+.headline {
+    font-size: 35px;
+    font-weight: lighter;
+    font-family: "Apple Color Emoji", fantasy;
+}
+
+.text {
+    font-size: 25px;
+    font-family: "Apple Color Emoji", fantasy;
+    font-weight: lighter;
+}
+
+/*table*/
+.header {
+    border: 5px solid darkblue;
+    margin: 5px;
+    background-color: bisque;
+}
+
+.rows {
+    border: 5px solid darkblue;
+    margin: 5px;
+    background-color: cyan;
+}
+
+.background {
+    background-color: darkcyan;
+}
+
+/*list*/
+.list {
+    list-style-type: none;
+}
+
+
+/*img*/
+img {
+    width: 250px;
+    height: 200px;
+    padding: 5px;
+}

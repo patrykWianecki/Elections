@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1>Edit user data</h1>
+            <form th:action="@{/users/edit}" method="post" th:object="${user}">
+                <div class="form-group row col-3">
+                    <label class="h2 text-success mr-3" for="username">User name</label>
+                    <input id="username" type="text" class="form-control" th:field="*{username}">
+                </div>
+                <div class="form-group row col-3">
+                    <label class="h2 text-success mr-3" for="password">Password</label>
+                    <input id="password" type="text" class="form-control" th:field="*{password}">
+                </div>
+                <div class="form-group row col-3">
+                    <label class="h2 text-success mr-3" for="email">Email</label>
+                    <input id="email" type="text" class="form-control" th:field="*{email}">
+                </div>
+                <div class="form-group">
+                    <label class="h2 text-success mr-3" for="enabled">Enabled</label>
+                    <input id="enabled" type="checkbox" name="active" class="form-control" th:checked="*{enabled}">
+                </div>
+                <div class="form-group">
+                    <label class="h2 text-success mr-3" for="role">Role</label>
+                    <ul id="role" class="list-inline">
+                        <li th:each="r : ${role}">
+                            <input type="radio" th:field="*{role}" th:value="${r}">
+                            <label class="ml-2" th:text="${r}"></label>
+                        </li>
+                    </ul>
+                </div>
+                <input type="text" hidden="hidden" readonly="readonly" th:field="*{id}">
+                <div class="form-group">
+                    <button class="btn btn-success btn-lg" type="submit">Add</button>
+                    <button class="btn btn-danger btn-lg" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

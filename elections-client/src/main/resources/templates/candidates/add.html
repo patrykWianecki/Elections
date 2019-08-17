@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new candidate</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}"/>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="background">
+<div th:replace="fragments/menu"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+            <h1 class="title">Enter new candidate data</h1>
+            <form th:action="@{/candidates/add}" method="post" th:object="${candidate}" enctype="multipart/form-data">
+                <div class="form-group row col-3">
+                    <label class="text" for="name">Name</label>
+                    <input id="name" type="text" class="form-control" th:field="*{name}">
+                </div>
+                <p th:if="${errors.containsKey('name')}" class="text-danger" th:text="${errors.get('name')}"></p>
+                <div class="form-group row col-3">
+                    <label class="text" for="surname">Surname</label>
+                    <input id="surname" type="text" class="form-control" th:field="*{surname}">
+                </div>
+                <p th:if="${errors.containsKey('surname')}" class="text-danger" th:text="${errors.get('surname')}"></p>
+                <div class="form-group row col-2">
+                    <label class="text" for="age">Age</label>
+                    <input id="age" type="number" class="form-control" th:field="*{age}">
+                </div>
+                <p th:if="${errors.containsKey('age')}" class="text-danger" th:text="${errors.get('age')}"></p>
+                <div class="form-group">
+                    <label class="text" for="gender">Gender</label>
+                    <ul id="gender" class="list-inline">
+                        <li th:each="g : ${genders}">
+                            <input type="radio" th:field="*{gender}" th:value="${g}">
+                            <label class="ml-2" th:text="${g}"></label>
+                        </li>
+                    </ul>
+                </div>
+                <p th:if="${errors.containsKey('gender')}" class="text-danger" th:text="${errors.get('gender')}"></p>
+                <!--<div class="form-group">
+                    <label class="text" for="photo">Photo</label>
+                    <input id="photo" type="file" th:field="*{multipartFile}">
+                </div>-->
+<!--                <p th:if="${errors.containsKey('photo')}" class="text-danger" th:text="${errors.get('photo')}"></p>-->
+                <div class="form-group">
+                    <label class="text" for="constituency">Constituency</label>
+                    <select id="constituency" th:field="*{constituencyDto.id}">
+                        <option th:each="c : ${constituencies}" th:value="${c.id}" th:text="${c.name}"></option>
+                    </select>
+                </div>
+                <p th:if="${errors.containsKey('constituencyDto')}" class="text-danger"
+                   th:text="${errors.get('constituencyDto')}"></p>
+                <div class="form-group">
+                    <button class="btn btn-success btn-lg text" type="submit">Add</button>
+                    <button class="btn btn-danger btn-lg text" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

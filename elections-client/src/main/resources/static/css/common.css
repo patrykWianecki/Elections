@@ -1,0 +1,84 @@
+/*text*/
+.title {
+    font-size: 45px;
+    font-weight: bold;
+    font-family: "Apple Color Emoji", fantasy;
+}
+
+.headline {
+    font-size: 35px;
+    font-weight: lighter;
+    font-family: "Apple Color Emoji", fantasy;
+}
+
+.text {
+    font-size: 25px;
+    font-family: "Apple Color Emoji", fantasy;
+    font-weight: lighter;
+}
+
+/*table*/
+.header {
+    border: 5px solid darkblue;
+    margin: 5px;
+    background-color: bisque;
+}
+
+.rows {
+    border: 5px solid darkblue;
+    margin: 5px;
+    background-color: cyan;
+}
+
+.background {
+    background-color: darkcyan;
+}
+
+.candidateBorder {
+    border: 3px solid darkblue;
+    width: 580px;
+    height: 220px;
+    margin: 5px;
+    padding: 2px 2px 10px 10px;
+    background-color: #bababa;
+}
+
+.constituencyBorder {
+    border: 3px solid darkblue;
+    width: 320px;
+    height: 100px;
+    margin: 3px;
+    padding: 2px 2px 10px 10px;
+    background-color: #bababa;
+}
+
+.voterBorder {
+    border: 3px solid darkblue;
+    width: 440px;
+    height: 220px;
+    margin: 5px;
+    padding: 2px 2px 10px 10px;
+    background-color: #bababa;
+}
+
+/*list*/
+.list {
+    list-style-type: none;
+}
+
+.verticalList {
+    display: block;
+    align-items: initial;
+}
+
+/*buttons*/
+.button {
+    display: inline-block;
+}
+
+/*img*/
+img {
+    width: 250px;
+    height: 210px;
+    padding: 5px;
+}
