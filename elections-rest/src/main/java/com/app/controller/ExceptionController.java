@@ -12,7 +12,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class ExceptionController {
 
-    // TODO formater dodać
     @ExceptionHandler(MyException.class)
     public String myExceptionHandler(MyException e, Model model) {
         model.addAttribute("description", e.getExceptionInfo());

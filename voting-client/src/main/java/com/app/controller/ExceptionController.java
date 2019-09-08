@@ -3,13 +3,13 @@ package com.app.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.app.exceptions.MyException;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class ExceptionController {
 
     @ExceptionHandler(MyException.class)
