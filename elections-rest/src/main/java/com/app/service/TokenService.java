@@ -41,7 +41,7 @@ public class TokenService {
         }
     }
 
-    private Integer returnUniqToken() {
+    private Integer returnUniqueToken() {
         int token = generateToken();
         while (checkToken(token)) {
             token = generateToken();
@@ -55,7 +55,7 @@ public class TokenService {
             .stream()
             .filter(token -> Objects.nonNull(token.getVoterToken()))
             .map(Token::getVoterToken)
-            .anyMatch(token -> token.equals(generatedToken));
+            .anyMatch(generatedToken::equals);
     }
 
     private Integer generateToken() {
@@ -91,10 +91,9 @@ public class TokenService {
     }
 
     private Token createToken(final Voter voter) {
-        Integer token = returnUniqToken();
         return Token.builder()
             .voter(voter)
-            .voterToken(token)
+            .voterToken(returnUniqueToken())
             .build();
     }
 }
