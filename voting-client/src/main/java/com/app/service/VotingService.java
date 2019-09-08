@@ -23,29 +23,34 @@ import org.springframework.web.client.RestTemplate;
 import com.app.exceptions.MyException;
 import com.app.model.dto.CandidateDto;
 import com.app.model.dto.ConstituencyDto;
-import com.app.model.dto.TokenDto;
 import com.app.model.dto.VoterDto;
-
-import lombok.RequiredArgsConstructor;
+import com.app.model.dto.security.UserDto;
+import com.app.security.TokenManager;
 
 import static org.springframework.http.HttpMethod.*;
 
 @Service
-@RequiredArgsConstructor
 public class VotingService {
 
     private final static String URL_CANDIDATES = "http://localhost:8080/candidates";
     private final static String URL_CONSTITUENCIES = "http://localhost:8080/constituencies";
     private final static String URL_VOTERS = "http://localhost:8080/voters";
-    private final static String URL_TOKENS = "http://localhost:8080/tokens";
+    private final static String URL_TOKENS = "http://localhost:8080/votersTokens";
+    private static final String URL_LOGIN = "http://localhost:8080/login";
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
+    private TokenManager tokenManager;
+
+    public VotingService(final RestTemplate restTemplate, final TokenManager tokenManager) {
+        this.restTemplate = restTemplate;
+        this.tokenManager = tokenManager;
+        login();
+    }
 
     public CandidateDto updateCandidate(CandidateDto candidateDto) {
         try {
             Optional.ofNullable(candidateDto).orElseThrow(() -> new MyException("Candidate is null"));
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<CandidateDto> entity = new HttpEntity<>(candidateDto, headers);
+            HttpEntity<CandidateDto> entity = new HttpEntity<>(candidateDto, createHeaders());
             ResponseEntity<CandidateDto> response = restTemplate.exchange(URL_CANDIDATES, PUT, entity, CandidateDto.class);
 
             return Optional.ofNullable(response.getBody()).orElseThrow(() -> new MyException("Missing response body"));
@@ -57,9 +62,9 @@ public class VotingService {
     public CandidateDto findCandidateById(Long id) {
         try {
             Optional.ofNullable(id).orElseThrow(() -> new MyException("Candidate id is null"));
-            Map<String, String> params = new HashMap<>();
-            params.put("id", String.valueOf(id));
-            ResponseEntity<CandidateDto> response = restTemplate.getForEntity(URL_CANDIDATES + "/{id}", CandidateDto.class, params);
+            HttpEntity<CandidateDto> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<CandidateDto> response = restTemplate
+                .exchange(URL_CANDIDATES + "/" + id, GET, entity, CandidateDto.class, createParams("id", String.valueOf(id)));
 
             return Optional.ofNullable(response.getBody()).orElseThrow(() -> new MyException("Missing response body"));
         } catch (Exception e) {
@@ -67,13 +72,12 @@ public class VotingService {
         }
     }
 
-    public TokenDto removeUsedToken(Integer token) {
+    public String removeUsedToken(Integer token) {
         try {
             Optional.ofNullable(token).orElseThrow(() -> new MyException("Voter token is null"));
-            Map<String, String> params = new HashMap<>();
-            params.put("token", String.valueOf(token));
-            ResponseEntity<TokenDto> response = restTemplate
-                .exchange(URL_TOKENS + "/" + token, DELETE, null, TokenDto.class, params);
+            HttpEntity<String> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<String> response = restTemplate
+                .exchange(URL_TOKENS + "/" + token, DELETE, entity, String.class, createParams("token", String.valueOf(token)));
 
             return Optional.ofNullable(response.getBody()).orElseThrow(() -> new MyException("Missing response body"));
         } catch (Exception e) {
@@ -81,12 +85,12 @@ public class VotingService {
         }
     }
 
-    public VoterDto findVoterByToken(String voterToken) {
+    public VoterDto findVoterByToken(Integer voterToken) {
         try {
             Optional.ofNullable(voterToken).orElseThrow(() -> new MyException("Voter token is null"));
-            Map<String, String> params = new HashMap<>();
-            params.put("token", voterToken);
-            ResponseEntity<VoterDto> response = restTemplate.getForEntity(URL_TOKENS + "/" + voterToken, VoterDto.class, params);
+            HttpEntity<VoterDto> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<VoterDto> response = restTemplate
+                .exchange(URL_TOKENS + "/" + voterToken, GET, entity, VoterDto.class, createParams("token", String.valueOf(voterToken)));
 
             return Optional.ofNullable(response.getBody()).orElseThrow(() -> new MyException("Missing response body"));
         } catch (Exception e) {
@@ -95,20 +99,42 @@ public class VotingService {
     }
 
     private List<CandidateDto> findAllCandidates() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(URL_CANDIDATES, CandidateDto[].class)));
+        try {
+            HttpEntity<CandidateDto> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<CandidateDto[]> response = restTemplate.exchange(URL_CANDIDATES, GET, entity, CandidateDto[].class);
+
+            return Arrays.asList(Objects.requireNonNull(response.getBody()));
+        } catch (Exception e) {
+            throw new MyException("Failed to get all candidates");
+        }
     }
 
     private List<ConstituencyDto> findAllConstituencies() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(URL_CONSTITUENCIES, ConstituencyDto[].class)));
+        try {
+            HttpEntity<ConstituencyDto> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<ConstituencyDto[]> response = restTemplate.exchange(URL_CONSTITUENCIES, GET, entity, ConstituencyDto[].class);
+
+            return Arrays.asList(Objects.requireNonNull(response.getBody()));
+        } catch (Exception e) {
+            throw new MyException("Failed to get all constituencies");
+        }
     }
 
     private List<VoterDto> findAllVoters() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(URL_VOTERS, VoterDto[].class)));
+        try {
+            HttpEntity<VoterDto> entity = new HttpEntity<>(null, createHeaders());
+            ResponseEntity<VoterDto[]> response = restTemplate.exchange(URL_VOTERS, GET, entity, VoterDto[].class);
+
+            return Arrays.asList(Objects.requireNonNull(response.getBody()));
+        } catch (Exception e) {
+            throw new MyException("Failed to get all voters");
+        }
     }
 
     private String deleteAllVoters() {
         try {
-            restTemplate.exchange(URL_VOTERS, DELETE, null, String.class);
+            HttpEntity<VoterDto> entity = new HttpEntity<>(null, createHeaders());
+            restTemplate.exchange(URL_VOTERS, DELETE, entity, String.class);
 
             return "Voters deleted successfully";
         } catch (Exception e) {
@@ -116,7 +142,7 @@ public class VotingService {
         }
     }
 
-    public List<CandidateDto> findAllCandidatesForVoterWithGivenToken(String token) {
+    public List<CandidateDto> findAllCandidatesForVoterWithGivenToken(Integer token) {
         try {
             Optional.ofNullable(token).orElseThrow(() -> new MyException("Token is null"));
             VoterDto voterDto = findVoterByToken(token);
@@ -287,9 +313,7 @@ public class VotingService {
     }
 
     private void setInvalidStatusForCandidateNotQualifiedToSecondBallot(Map<CandidateDto, BigDecimal> votesPercentPerCandidate) {
-        candidatesNotQualifiedToSecondBallot(votesPercentPerCandidate).forEach(candidate -> {
-            setCandidateValid(candidate.getId());
-        });
+        candidatesNotQualifiedToSecondBallot(votesPercentPerCandidate).forEach(candidate -> setCandidateValid(candidate.getId()));
     }
 
     private void setCandidateValid(Long candidateId) {
@@ -339,5 +363,24 @@ public class VotingService {
             .filter(percent -> percent.getValue().compareTo(percentageOfSecondCandidate) < 0)
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
+    }
+
+    private HttpHeaders createHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + tokenManager.getToken());
+        return headers;
+    }
+
+    private Map<String, String> createParams(String param, String value) {
+        Map<String, String> params = new HashMap<>();
+        params.put(param, value);
+        return params;
+    }
+
+    private void login() {
+        UserDto user = UserDto.builder().username("admin").password("admin").build();
+        HttpEntity<UserDto> entity = new HttpEntity<>(user);
+        ResponseEntity<String> loginResponse = restTemplate.postForEntity(URL_LOGIN, entity, String.class);
+        tokenManager.setToken(loginResponse.getBody());
     }
 }
