@@ -9,9 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.model.dto.CandidateDto;
@@ -29,27 +32,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class VotingControllerTest {
-
-    @MockBean
-    private VotingService votingService;
-    @MockBean
-    private RedirectAttributes redirectAttributes;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Test
-    void should_successfully_confirm_voting() throws Exception {
-        // given
-
-        // when + then
-        mockMvc.perform(get("/voting/confirm"))
-            .andExpect(status().isOk())
-            .andExpect(handler().methodName("confirmVoting"))
-            .andExpect(content().contentType("text/plain;charset=UTF-8"));
-        //            .andExpect(view().name("voting/confirm"));
-    }
-
+//
+//    @MockBean
+//    private VotingService votingService;
+//    @MockBean
+//    private RedirectAttributes redirectAttributes;
+//
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Test
+//    void should_successfully_confirm_voting() throws Exception {
+//        // given
+//
+//        // when + then
+//        mockMvc.perform(get("/voting/confirm"))
+//            .andExpect(status().isOk())
+//            .andExpect(handler().methodName("confirmVoting"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
+//            .andExpect(view().name("voting/confirm"));
+//    }
+//
 //    @Test
 //    void should_successfully_confirm_voting_post() throws Exception {
 //        // given
@@ -60,22 +63,22 @@ class VotingControllerTest {
 //        mockMvc.perform(post("/voting/confirm"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("confirmVotingPost"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("redirect:/voting/vote"));
 //    }
-
-    @Test
-    void should_successfully_handle_incorrect_token() throws Exception {
-        // given
-
-        // when + then
-        mockMvc.perform(get("/voting/confirm/errorPage"))
-            .andExpect(status().isOk())
-            .andExpect(handler().methodName("incorrectToken"))
-            .andExpect(content().contentType("text/plain;charset=UTF-8"));
-        //            .andExpect(view().name("voting/confirm"));
-    }
-
+//
+//    @Test
+//    void should_successfully_handle_incorrect_token() throws Exception {
+//        // given
+//
+//        // when + then
+//        mockMvc.perform(get("/voting/confirm/errorPage"))
+//            .andExpect(status().isOk())
+//            .andExpect(handler().methodName("incorrectToken"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
+//            .andExpect(view().name("voting/confirm"));
+//    }
+//
 //    @Test
 //    void should_successfully_vote() throws Exception {
 //        // given
@@ -85,7 +88,7 @@ class VotingControllerTest {
 //        mockMvc.perform(get("/voting/vote"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("vote"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("voting/vote"));
 //    }
 //
@@ -100,7 +103,7 @@ class VotingControllerTest {
 //        mockMvc.perform(post("/voting/vote"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("votePost"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("redirect:/voting/finish"));
 //    }
 //
@@ -112,7 +115,7 @@ class VotingControllerTest {
 //        mockMvc.perform(post("/voting/finish"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("finishVoting"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("voting/finish"));
 //    }
 //
@@ -124,7 +127,7 @@ class VotingControllerTest {
 //        mockMvc.perform(post("/voting/secondBallot"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("secondBallot"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("voting/secondBallot"));
 //    }
 //
@@ -144,7 +147,7 @@ class VotingControllerTest {
 //        mockMvc.perform(post("/voting/result"))
 //            .andExpect(status().isOk())
 //            .andExpect(handler().methodName("showWinnersFromEachConstituency"))
-//            .andExpect(content().contentType("text/plain;charset=UTF-8"))
+//            .andExpect(content().contentType("text/html;charset=UTF-8"))
 //            .andExpect(view().name("voting/result"));
 //    }
 }
