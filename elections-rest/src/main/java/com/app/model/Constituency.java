@@ -3,7 +3,9 @@ package com.app.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -22,22 +24,14 @@ public class Constituency {
     @GeneratedValue
     private Long id;
     private String name;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "constituency")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Voter> voters;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "constituency")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Candidate> candidates;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Constituency that = (Constituency) o;
-        return Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }
