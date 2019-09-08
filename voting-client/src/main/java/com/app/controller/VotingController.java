@@ -1,11 +1,11 @@
 package com.app.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.model.dto.TokenFromVoterDto;
@@ -15,7 +15,7 @@ import com.app.service.VotingService;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/voting")
 public class VotingController {
@@ -31,7 +31,7 @@ public class VotingController {
 
     @PostMapping("/confirm")
     public String confirmVotingPost(@ModelAttribute TokenFromVoterDto tokenFromVoterDto, Model model, RedirectAttributes attributes) {
-        VoterDto voterDto = votingService.findVoterByToken(String.valueOf(tokenFromVoterDto.getToken()));
+        VoterDto voterDto = votingService.findVoterByToken(tokenFromVoterDto.getToken());
         model.addAttribute("voterDto", voterDto);
         attributes.addFlashAttribute(tokenFromVoterDto.getToken());
         return "redirect:/voting/vote";
@@ -44,8 +44,8 @@ public class VotingController {
     }
 
     @GetMapping("/vote")
-    public String vote(@ModelAttribute String token, Model model) {
-        VotingResult votingResult = VotingResult.builder().token(Integer.valueOf(token)).build();
+    public String vote(@ModelAttribute Integer token, Model model) {
+        VotingResult votingResult = VotingResult.builder().token(token).build();
         model.addAttribute("votingResult", votingResult);
         model.addAttribute("candidates", votingService.findAllCandidatesForVoterWithGivenToken(token));
         return "voting/vote";
