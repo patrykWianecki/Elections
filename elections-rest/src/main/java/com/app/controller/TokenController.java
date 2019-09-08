@@ -25,7 +25,7 @@ public class TokenController {
     }
 
     @GetMapping("/{voterToken}")
-    public ResponseEntity<VoterDto> getVoterByToken(@PathVariable String voterToken) {
-        return ResponseEntity.ok(tokenService.findVoterByToken(Integer.valueOf(voterToken)));
+    public ResponseEntity<VoterDto> getVoterByToken(@PathVariable Integer voterToken) {
+        return ResponseEntity.ok(tokenService.findVoterByToken(voterToken));
     }
 }
