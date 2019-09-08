@@ -14,16 +14,14 @@ public class ExceptionController {
 
     @ExceptionHandler(MyException.class)
     public String myExceptionHandler(MyException e, Model model) {
-        model.addAttribute("exceptionCode", "TODO");
-        model.addAttribute("description", "TODO");
+        model.addAttribute("description", e.getMessage());
         model.addAttribute("dateTime", LocalDateTime.now());
         return "errorPage";
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public String notFoundException(MyException e, Model model) {
-        model.addAttribute("errorMessage", "404 ->" + "TODO");
-        model.addAttribute("description", "TODO");
+        model.addAttribute("description", e.getMessage());
         model.addAttribute("dateTime", LocalDateTime.now());
         return "errorPage";
     }
