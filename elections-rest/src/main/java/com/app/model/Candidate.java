@@ -3,7 +3,9 @@ package com.app.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -32,25 +34,7 @@ public class Candidate {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "constituency_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Constituency constituency;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Candidate candidate = (Candidate) o;
-        return Objects.equals(id, candidate.id) &&
-            Objects.equals(name, candidate.name) &&
-            Objects.equals(surname, candidate.surname) &&
-            Objects.equals(age, candidate.age) &&
-            gender == candidate.gender &&
-            Objects.equals(photo, candidate.photo) &&
-            Objects.equals(votes, candidate.votes) &&
-            Objects.equals(isValid, candidate.isValid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, age, gender, photo, votes, isValid);
-    }
 }
