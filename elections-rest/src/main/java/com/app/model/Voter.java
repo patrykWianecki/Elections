@@ -28,4 +28,9 @@ public class Voter {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Constituency constituency;
+
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "voter")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Token token;
 }
