@@ -76,7 +76,6 @@ public class ConstituencyService {
 
             return Optional.ofNullable(response.getBody()).orElseThrow(() -> new MyException("Missing response body"));
         } catch (Exception e) {
-            e.printStackTrace();
             throw new MyException("Failed to find constituency by id " + id);
         }
     }
