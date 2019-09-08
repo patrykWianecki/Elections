@@ -59,16 +59,16 @@ class SecurityControllerTest {
             .andExpect(view().name("redirect:/"));
     }
 
-    //    @Test
-    //    void should_login_with_error() throws Exception {
-    //        // given
-    //
-    //        // when + then
-    //        mockMvc.perform(get("/login/errorPage"))
-    //            .andExpect(status().isOk())
-    //            .andExpect(handler().methodName("loginError"))
-    //            .andExpect(view().name("security/loginPage"));
-    //    }
+//    @Test
+//    void should_login_with_error() throws Exception {
+//        // given
+//
+//        // when + then
+//        mockMvc.perform(get("/login/errorPage"))
+//            .andExpect(status().isOk())
+//            .andExpect(handler().methodName("loginError"))
+//            .andExpect(view().name("security/loginPage"));
+//    }
 
     @Test
     void should_deny_access() throws Exception {
