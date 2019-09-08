@@ -20,8 +20,8 @@
         <div class="row card-body offset-xl-4 candidate text" th:each="winner : ${winners}">
             <div class="row">
                 <div class="col">
-                    <img class="align-self-start mr-3 rounded-circle"
-                         th:src="@{/img/{photo}(photo=${winner.photo})}">
+<!--                    <img class="align-self-start mr-3 rounded-circle"-->
+<!--                         th:src="@{/img/{photo}(photo=${winner.photo})}">-->
                     <span>Number of votes: <label th:text="${winner.votes}"></label></span>
                 </div>
             </div>
