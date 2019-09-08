@@ -1,8 +1,10 @@
 package com.app.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,50 +17,60 @@ import com.app.exceptions.MyException;
 public class FileManager {
 
     @Value("${img.path}")
-    private String imgPath;
+    private static String imgPath;
 
     private String generateFilename(MultipartFile multipartFile) {
-        final String originalFilename = multipartFile.getOriginalFilename();
+        Optional.ofNullable(multipartFile).orElseThrow(() -> new MyException("Multipart file is null"));
+
+        final String originalFilename = Optional.ofNullable(multipartFile.getOriginalFilename())
+            .orElseThrow(() -> new MyException("Missing original filename in file " + multipartFile.getName()));
         final String[] arr = originalFilename.split("\\.");
         final String filename = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+
         return filename + "." + arr[arr.length - 1];
     }
 
     public String addFile(MultipartFile multipartFile) {
         try {
-            if (multipartFile == null || multipartFile.getBytes().length == 0) {
-                throw new IllegalArgumentException("FILE IS NOT CORRECT");
-            }
+            validateMultipartFile(multipartFile);
             final String filename = generateFilename(multipartFile);
-            final String fullPath = imgPath + filename;
-            FileCopyUtils.copy(multipartFile.getBytes(), new File(fullPath));
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(createFileFullPath(filename)));
+
             return filename;
         } catch (Exception e) {
-            throw new MyException("ADD FILE EXCEPTION");
+            throw new MyException("Unable to add new file");
         }
     }
 
     public boolean updateFile(MultipartFile multipartFile, String filename) {
         try {
-            if (multipartFile == null || multipartFile.getBytes().length == 0) {
-                return true;
-            }
-            final String fullPath = imgPath + filename;
-            FileCopyUtils.copy(multipartFile.getBytes(), new File(fullPath));
+            Optional.ofNullable(filename).orElseThrow(() -> new MyException("Filename is null"));
+            validateMultipartFile(multipartFile);
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(createFileFullPath(filename)));
+
             return true;
         } catch (Exception e) {
-            throw new MyException("UPDATE FILE EXCEPTION");
+            throw new MyException("Unable to update existing file");
         }
     }
 
     public boolean removeFile(String filename) {
         try {
-            final String fullPath = imgPath + filename;
-            new File(fullPath).delete();
-            return true;
+            return new File(createFileFullPath(filename)).delete();
         } catch (Exception e) {
-            throw new MyException("DELETE FILE EXCEPTION");
+            throw new MyException("Unable to delete file");
         }
+    }
+
+    private static void validateMultipartFile(final MultipartFile multipartFile) throws IOException {
+        Optional.ofNullable(multipartFile).orElseThrow(() -> new MyException("Multipart file is null"));
+        if (multipartFile.getBytes().length == 0) {
+            throw new MyException("Multipart file length is equal to 0");
+        }
+    }
+
+    private static String createFileFullPath(final String filename) {
+        return imgPath + filename;
     }
 }
 
