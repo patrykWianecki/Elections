@@ -15,7 +15,7 @@
     <div class="row my-5 offset-xl-3">
         <form th:action="@{/voting/confirm}" method="post" th:object="${tokenFromVoter}">
             <div class="form-group">
-                <label for="token" class="title">Enter your token and continue</label>
+                <label for="token" class="title">Enter your token</label>
                 <input id="token" type="text" th:field="*{token}" class="form-control"/>
             </div>
             <div class="row">
